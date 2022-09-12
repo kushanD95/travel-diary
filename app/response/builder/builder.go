@@ -5,9 +5,9 @@ import (
 )
 
 type ErrorResponse struct {
+	Code    int
 	Message string
 	Error   string
-	Code    int
 }
 
 type Response struct {
@@ -23,9 +23,7 @@ func (res *Response) BuildAndReturnResponse() {
 	switch res.Status {
 	case 200:
 		res.Ctx.Status(res.Status).JSON(res.Payload)
-	case 400:
-	case 404:
-		res.ErrorRes.Code = res.Status
+	default:
 		res.Ctx.Status(res.Status).JSON(res.ErrorRes)
 	}
 }
