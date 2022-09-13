@@ -15,6 +15,7 @@ var appConfig *config.AppConfig
 
 func init() {
 	appConfig = &config.AppConfig{}
+	appConfig.InitConfig()
 }
 
 func main() {

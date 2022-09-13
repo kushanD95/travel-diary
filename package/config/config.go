@@ -5,27 +5,41 @@ import (
 	"log"
 
 	"github.com/kushanD95/traval-diary/package/utils"
+	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 type AppConfig struct {
-	PGSSLMode  string
-	PGPort     string
 	PGHost     string
 	PGUserName string
 	PGPwd      string
+	PGPort     string
 	PGDB       string
+	PGSSLMode  string
+}
+
+func (config *AppConfig) InitConfig() {
+
+	viper.SetDefault("PGHOST", "localhost")
+	viper.SetDefault("PGUSRNAME", "postgres")
+	viper.SetDefault("PGPWD", "postgres")
+	viper.SetDefault("PGPORT", "5431")
+	viper.SetDefault("PGDB", "travel-diary")
+	viper.SetDefault("PGSSLMODE", "disable")
+
+	viper.AutomaticEnv()
+
+	config.PGHost = viper.GetString("PGHOST")
+	config.PGUserName = viper.GetString("PGUSRNAME")
+	config.PGPwd = viper.GetString("PGPWD")
+	config.PGPort = viper.GetString("PGPORT")
+	config.PGDB = viper.GetString("PGDB")
+	config.PGSSLMode = viper.GetString("PGSSLMODE")
+
 }
 
 func (config *AppConfig) SetupDB() *gorm.DB {
-
-	config.PGHost = "localhost"
-	config.PGPort = "5431"
-	config.PGPwd = "postgres"
-	config.PGDB = "travel-diary"
-	config.PGUserName = "postgres"
-	config.PGSSLMode = "disable"
 
 	connStr := fmt.Sprintf(utils.DBDsn, config.PGHost, config.PGUserName, config.PGPwd, config.PGDB, config.PGPort, config.PGSSLMode)
 
