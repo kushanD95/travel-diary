@@ -2,13 +2,12 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"time"
 
 	"github.com/kushanD95/traval-diary/app/controller"
 	"github.com/kushanD95/traval-diary/package/config"
 	fiberconfig "github.com/kushanD95/traval-diary/package/config/fiber"
+	"github.com/kushanD95/traval-diary/package/utils"
 )
 
 var appConfig *config.AppConfig
@@ -29,11 +28,8 @@ func main() {
 	}(ctx)
 
 	db := appConfig.SetupDB()
-	if db == nil {
-		log.Fatal("db connection failed")
-	}
+	_ = db
 
 	controller.Controller(app)
-	app.Listen(":" + "9000")
-	fmt.Println("Application start")
+	app.Listen(utils.Colon + appConfig.AppPort)
 }

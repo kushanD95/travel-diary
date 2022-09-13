@@ -17,6 +17,8 @@ type AppConfig struct {
 	PGPort     string
 	PGDB       string
 	PGSSLMode  string
+
+	AppPort string
 }
 
 func (config *AppConfig) InitConfig() {
@@ -28,8 +30,11 @@ func (config *AppConfig) InitConfig() {
 	viper.SetDefault("PGDB", "travel-diary")
 	viper.SetDefault("PGSSLMODE", "disable")
 
+	viper.SetDefault("APPPORT", "9000")
+
 	viper.AutomaticEnv()
 
+	config.AppPort = viper.GetString("APPPORT")
 	config.PGHost = viper.GetString("PGHOST")
 	config.PGUserName = viper.GetString("PGUSRNAME")
 	config.PGPwd = viper.GetString("PGPWD")
