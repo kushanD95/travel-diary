@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/kushanD95/traval-diary/app/response/builder"
 	"github.com/kushanD95/traval-diary/package/config"
@@ -9,7 +11,7 @@ import (
 
 func Check(ctx *fiber.Ctx) (err error) {
 	lg := config.AppConfigutarion.GetLogger()
-	lg.Info("Check Handler Started")
+	lg.Info(fmt.Sprintf(utils.CHECK_HANDLER, utils.STARTED))
 	responseBuilder := builder.Response{
 		Ctx:     ctx,
 		Payload: Success,
@@ -18,6 +20,6 @@ func Check(ctx *fiber.Ctx) (err error) {
 
 	responseBuilder.BuildAndReturnResponse()
 
-	lg.Info("Check Handler End")
+	lg.Info(fmt.Sprintf(utils.CHECK_HANDLER, utils.END))
 	return nil
 }

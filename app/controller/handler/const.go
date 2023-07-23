@@ -1,5 +1,7 @@
 package handler
 
 const (
-	Success = "Success"
+	Success        = "Success"
+	BadRequest     = "BadRequest"
+	InternalServer = "InternalServer"
 )

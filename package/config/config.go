@@ -69,6 +69,5 @@ func (config *AppConfig) SetupDB() *gorm.DB {
 }
 
 func (config *AppConfig) GetLogger() zap.Logger {
-	fmt.Println(config)
 	return *config.logger
 }

@@ -9,5 +9,6 @@ func Controller(app *fiber.App) {
 	baseRoute := app.Group("/travel-diary/v1")
 
 	baseRoute.Get("/check", handler.Check)
-	// baseRoute.Get("/login", handler.Login)
+	baseRoute.Get("/login", handler.Login)
+	baseRoute.Post("/register", handler.Register)
 }
