@@ -10,11 +10,10 @@ import (
 	"github.com/kushanD95/traval-diary/package/utils"
 )
 
-var appConfig *config.AppConfig
-
 func init() {
-	appConfig = &config.AppConfig{}
-	appConfig.InitConfig()
+	config.AppConfigutarion = &config.AppConfig{}
+	config.AppConfigutarion.InitConfig()
+	config.AppConfigutarion.InitLogger()
 }
 
 func main() {
@@ -26,10 +25,9 @@ func main() {
 		ctx, cancel = context.WithTimeout(ctx, time.Second*10)
 		defer cancel()
 	}(ctx)
-
-	db := appConfig.SetupDB()
+	db := config.AppConfigutarion.SetupDB()
 	_ = db
 
 	controller.Controller(app)
-	app.Listen(utils.Colon + appConfig.AppPort)
+	app.Listen(utils.Colon + config.AppConfigutarion.AppPort)
 }
