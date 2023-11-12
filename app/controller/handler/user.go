@@ -4,10 +4,12 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/kushanD95/traval-diary/app/controller/dto"
+	"github.com/kushanD95/traval-diary/app/controller/handler/validator"
 	"github.com/kushanD95/traval-diary/app/response/builder"
 	"github.com/kushanD95/traval-diary/app/services"
 	"github.com/kushanD95/traval-diary/package/config"
-	"github.com/kushanD95/traval-diary/package/dto"
+	commondto "github.com/kushanD95/traval-diary/package/dto"
 	"github.com/kushanD95/traval-diary/package/utils"
 	"go.uber.org/zap"
 )
@@ -17,12 +19,18 @@ func Register(ctx *fiber.Ctx) error {
 	lgFields := []zap.Field{zap.String(utils.METHOD, utils.REGISTER)}
 	lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.STARTED), lgFields...)
 
-	var user dto.User
+	var (
+		user            *dto.User
+		errRes          *commondto.ErrorResponse
+		response        *commondto.CreateUserResponse
+		responseBuilder *builder.Response
+		statusCode      int
+	)
 	defer func() {
 		if err := recover(); err != nil {
 			responseBuilder := builder.Response{
 				Ctx: ctx,
-				ErrorRes: &dto.ErrorResponse{
+				ErrorRes: &commondto.ErrorResponse{
 					Message: utils.INTERNAL_SERVER_ERROR,
 					Code:    utils.StatusCode[utils.InternalServer],
 					Error:   fmt.Sprintf("%v", err),
@@ -36,25 +44,24 @@ func Register(ctx *fiber.Ctx) error {
 		}
 	}()
 
-	if err := ctx.BodyParser(&user); err != nil {
-		lgFields = append(lgFields, zap.Any(utils.ERROR, err))
-		lg.Error(utils.BODY_PARSER_ERROR, lgFields...)
-		responseBuilder := builder.Response{
-			Ctx: ctx,
-			ErrorRes: &dto.ErrorResponse{
-				Message: utils.BadRequest,
-				Code:    utils.StatusCode[utils.BadRequest],
-				Error:   fmt.Sprintf("%v", err),
-			},
-			Status: utils.StatusCode[utils.BadRequest],
-		}
-
-		responseBuilder.BuildAndReturnResponse()
-		lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END_WITH_ERROR), lgFields...)
-		return nil
+	user, errRes = validator.UserReq(ctx)
+	if errRes == nil {
+		service := services.CreateUserService(nil)
+		response, errRes = service.RegisterUserService(user)
+		statusCode = utils.StatusCode[utils.Created]
 	}
-	services.Register(&user)
-	lg.Info(fmt.Sprintf(utils.RECEIVED_PAYLOAD, user), lgFields...)
+	if errRes != nil {
+		statusCode = errRes.Code
+	}
+
+	responseBuilder = &builder.Response{
+		Ctx:      ctx,
+		ErrorRes: errRes,
+		Payload:  response,
+		Status:   statusCode,
+	}
+
+	responseBuilder.BuildAndReturnResponse()
 	lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END), lgFields...)
 	return nil
 }

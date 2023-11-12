@@ -11,7 +11,7 @@ import (
 	"github.com/kushanD95/traval-diary/app/response/builder"
 	"github.com/kushanD95/traval-diary/app/services"
 	"github.com/kushanD95/traval-diary/package/config"
-	commonDto "github.com/kushanD95/traval-diary/package/dto"
+	commondto "github.com/kushanD95/traval-diary/package/dto"
 	"github.com/kushanD95/traval-diary/package/utils"
 )
 
@@ -37,8 +37,8 @@ func Ready(ctx *fiber.Ctx) (err error) {
 
 	var (
 		request         *dto.EnvConfigReq
-		response        *commonDto.EnvConfig
-		errRes          *commonDto.ErrorResponse
+		response        *commondto.EnvConfig
+		errRes          *commondto.ErrorResponse
 		responseBuilder *builder.Response
 		statusCode      int
 	)
@@ -48,7 +48,7 @@ func Ready(ctx *fiber.Ctx) (err error) {
 		if err := recover(); err != nil {
 			responseBuilder := builder.Response{
 				Ctx: ctx,
-				ErrorRes: &commonDto.ErrorResponse{
+				ErrorRes: &commondto.ErrorResponse{
 					Message: utils.INTERNAL_SERVER_ERROR,
 					Code:    utils.StatusCode[utils.InternalServer],
 					Error:   fmt.Sprintf("%v", err),

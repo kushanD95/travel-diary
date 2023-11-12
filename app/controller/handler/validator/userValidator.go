@@ -11,12 +11,12 @@ import (
 	"go.uber.org/zap"
 )
 
-func EnvConfigReq(ctx *fiber.Ctx) (*dto.EnvConfigReq, *commondto.ErrorResponse) {
+func UserReq(ctx *fiber.Ctx) (*dto.User, *commondto.ErrorResponse) {
 	lg := config.AppConfigutarion.GetLogger()
-	lgFields := []zap.Field{zap.String(utils.METHOD, utils.ENV_CONFIG_REQ)}
-	lg.Info(fmt.Sprintf(utils.ENV_CONFIG_REQ_LOG, utils.STARTED), lgFields...)
+	lgFields := []zap.Field{zap.String(utils.METHOD, utils.USER_REQ)}
+	lg.Info(fmt.Sprintf(utils.USER_REQ_LOG, utils.STARTED), lgFields...)
 	var (
-		request dto.EnvConfigReq
+		request dto.User
 	)
 	parseErr := ctx.BodyParser(&request)
 	if parseErr != nil {
@@ -27,7 +27,7 @@ func EnvConfigReq(ctx *fiber.Ctx) (*dto.EnvConfigReq, *commondto.ErrorResponse) 
 		}
 
 		lgFields = append(lgFields, zap.Any(utils.ERROR, parseErr))
-		lg.Error(fmt.Sprintf(utils.ENV_CONFIG_REQ_LOG, utils.END_WITH_ERROR), lgFields...)
+		lg.Error(fmt.Sprintf(utils.USER_REQ_LOG, utils.END_WITH_ERROR), lgFields...)
 		return nil, errRes
 	}
 	validateErr := validate.Struct(&request)
@@ -38,10 +38,10 @@ func EnvConfigReq(ctx *fiber.Ctx) (*dto.EnvConfigReq, *commondto.ErrorResponse) 
 			Error:   fmt.Sprintf("%v", validateErr.Error()),
 		}
 		lgFields = append(lgFields, zap.Any(utils.ERROR, validateErr))
-		lg.Error(fmt.Sprintf(utils.ENV_CONFIG_REQ_LOG, utils.END_WITH_ERROR), lgFields...)
+		lg.Error(fmt.Sprintf(utils.USER_REQ_LOG, utils.END_WITH_ERROR), lgFields...)
 		return nil, errRes
 	}
 
-	lg.Info(fmt.Sprintf(utils.ENV_CONFIG_REQ_LOG, utils.END), lgFields...)
+	lg.Info(fmt.Sprintf(utils.USER_REQ_LOG, utils.END), lgFields...)
 	return &request, nil
 }
