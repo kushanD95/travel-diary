@@ -16,14 +16,14 @@ func (context *Context) BuildRepoErrRes(err error) *commondto.ErrorResponse {
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return &commondto.ErrorResponse{
 			Code:    utils.StatusCode[utils.NotFound],
-			Message: "Record not found",
+			Message: utils.RECORD_NOT_FOUND,
 			Error:   err.Error(),
 		}
 	}
 
 	return &commondto.ErrorResponse{
 		Code:    utils.StatusCode[utils.InternalServer],
-		Message: "Internal server Error",
+		Message: utils.INTERNAL_SERVER_ERROR,
 		Error:   err.Error(),
 	}
 }

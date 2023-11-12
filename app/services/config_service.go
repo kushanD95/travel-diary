@@ -27,17 +27,19 @@ func CreateConfigService(transaction *gorm.DB) ConfigService {
 func (service *ConfigService) FetchConfigService(req *dto.EnvConfigReq) (*commondto.EnvConfig, *commondto.ErrorResponse) {
 
 	lg := config.AppConfigutarion.GetLogger()
-	lgFields := []zap.Field{zap.String("Method", "FetchConfigService")}
-	lg.Info(fmt.Sprintf(utils.FETCH_CONFIG_SERVICE, utils.STARTED))
+	lgFields := []zap.Field{zap.String(utils.METHOD, utils.FETCH_CONFIG_SERVICE)}
+	lg.Info(fmt.Sprintf(utils.FETCH_CONFIG_SERVICE_LOG, utils.STARTED))
 
 	defer func() {
-		lg.Info(fmt.Sprintf(utils.FETCH_CONFIG_SERVICE, utils.END), lgFields...)
+		lg.Info(fmt.Sprintf(utils.FETCH_CONFIG_SERVICE_LOG, utils.END), lgFields...)
 	}()
 
 	repo := repository.CreateConfigRepository(Db, nil)
 
 	data, err := repo.GetConfig(req.Env)
 	if err != nil {
+		lgFields = append(lgFields, zap.Any(utils.ERROR, err))
+		lg.Error(fmt.Sprintf(utils.FETCH_CONFIG_SERVICE_LOG, utils.END_WITH_ERROR), lgFields...)
 		errRes := service.serviceContext.BuildRepoErrRes(err)
 		return nil, errRes
 	}

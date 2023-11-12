@@ -14,8 +14,8 @@ import (
 
 func Register(ctx *fiber.Ctx) error {
 	lg := config.AppConfigutarion.GetLogger()
-	lgFields := []zap.Field{zap.String("Method", "Register")}
-	lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.STARTED))
+	lgFields := []zap.Field{zap.String(utils.METHOD, utils.REGISTER)}
+	lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.STARTED), lgFields...)
 
 	var user dto.User
 	defer func() {
@@ -23,7 +23,7 @@ func Register(ctx *fiber.Ctx) error {
 			responseBuilder := builder.Response{
 				Ctx: ctx,
 				ErrorRes: &dto.ErrorResponse{
-					Message: "Internal server error",
+					Message: utils.INTERNAL_SERVER_ERROR,
 					Code:    utils.StatusCode[utils.InternalServer],
 					Error:   fmt.Sprintf("%v", err),
 				},
@@ -50,19 +50,20 @@ func Register(ctx *fiber.Ctx) error {
 		}
 
 		responseBuilder.BuildAndReturnResponse()
-		lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END_WITH_ERROR))
+		lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END_WITH_ERROR), lgFields...)
 		return nil
 	}
 	services.Register(&user)
-	lg.Info(fmt.Sprintf("received payload %v", user))
-	lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END))
+	lg.Info(fmt.Sprintf(utils.RECEIVED_PAYLOAD, user), lgFields...)
+	lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END), lgFields...)
 	return nil
 }
 
 func Login(ctx *fiber.Ctx) error {
 	lg := config.AppConfigutarion.GetLogger()
-	lg.Info(fmt.Sprintf(utils.LOGIN_HANDLER, utils.STARTED))
+	lgFields := []zap.Field{zap.String(utils.METHOD, utils.LOGIN)}
+	lg.Info(fmt.Sprintf(utils.LOGIN_HANDLER, utils.STARTED), lgFields...)
 
-	lg.Info(fmt.Sprintf(utils.LOGIN_HANDLER, utils.END))
+	lg.Info(fmt.Sprintf(utils.LOGIN_HANDLER, utils.END), lgFields...)
 	return nil
 }

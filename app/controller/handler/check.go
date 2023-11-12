@@ -32,7 +32,7 @@ func Check(ctx *fiber.Ctx) (err error) {
 
 func Ready(ctx *fiber.Ctx) (err error) {
 	lg := config.AppConfigutarion.GetLogger()
-	lgFields := []zap.Field{zap.String("Method", "Ready")}
+	lgFields := []zap.Field{zap.String(utils.METHOD, utils.READY)}
 	lg.Info(fmt.Sprintf(utils.READY_HANDLER, utils.STARTED), lgFields...)
 
 	var (
@@ -41,8 +41,6 @@ func Ready(ctx *fiber.Ctx) (err error) {
 		errRes          *commonDto.ErrorResponse
 		responseBuilder *builder.Response
 		statusCode      int
-		// body     = string(ctx.Body())
-
 	)
 
 	defer func() {
@@ -51,7 +49,7 @@ func Ready(ctx *fiber.Ctx) (err error) {
 			responseBuilder := builder.Response{
 				Ctx: ctx,
 				ErrorRes: &commonDto.ErrorResponse{
-					Message: "Internal server error",
+					Message: utils.INTERNAL_SERVER_ERROR,
 					Code:    utils.StatusCode[utils.InternalServer],
 					Error:   fmt.Sprintf("%v", err),
 				},
