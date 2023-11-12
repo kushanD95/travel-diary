@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/kushanD95/traval-diary/app/controller"
+	"github.com/kushanD95/traval-diary/app/services"
 	"github.com/kushanD95/traval-diary/package/config"
 	fiberconfig "github.com/kushanD95/traval-diary/package/config/fiber"
 	"github.com/kushanD95/traval-diary/package/utils"
@@ -17,6 +18,7 @@ func init() {
 }
 
 func main() {
+	// setup fiber
 	app := fiberconfig.SetupFiberApp()
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -25,9 +27,15 @@ func main() {
 		ctx, cancel = context.WithTimeout(ctx, time.Second*10)
 		defer cancel()
 	}(ctx)
-	db := config.AppConfigutarion.SetupDB()
-	_ = db
 
+	//setup db connection
+	db := config.AppConfigutarion.SetupDB()
+	dbConn := services.DBConn{
+		Db: db,
+	}
+	dbConn.SetupDB()
+
+	//register the controller
 	controller.Controller(app)
 	app.Listen(utils.Colon + config.AppConfigutarion.AppPort)
 }

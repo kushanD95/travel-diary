@@ -12,11 +12,11 @@ package handler
 // 		responseBuilder := builder.Response{
 // 			Ctx: ctx,
 // 			ErrorRes: builder.ErrorResponse{
-// 				Message: BadRequest,
-// 				Code:    utils.StatusCode[BadRequest],
+// 				Message: utils.BadRequest,
+// 				Code:    utils.StatusCode[utils.BadRequest],
 // 				Error:   fmt.Sprintf("%v", err),
 // 			},
-// 			Status: utils.StatusCode[BadRequest],
+// 			Status: utils.StatusCode[utils.BadRequest],
 // 		}
 // 		lg.Info(fmt.Sprintf(utils.REGISTER_HANDLER, utils.END))
 // 		return nil, err, responseBuilder

@@ -9,6 +9,7 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 type AppConfig struct {
@@ -30,7 +31,7 @@ func (config *AppConfig) InitConfig() {
 	viper.SetDefault("PGHOST", "localhost")
 	viper.SetDefault("PGUSRNAME", "postgres")
 	viper.SetDefault("PGPWD", "postgres")
-	viper.SetDefault("PGPORT", "5431")
+	viper.SetDefault("PGPORT", "5432")
 	viper.SetDefault("PGDB", "travel-diary")
 	viper.SetDefault("PGSSLMODE", "disable")
 
@@ -61,7 +62,11 @@ func (config *AppConfig) SetupDB() *gorm.DB {
 
 	connStr := fmt.Sprintf(utils.DBDsn, config.pgHost, config.pgUserName, config.pgPwd, config.pgDB, config.pgPort, config.pgSSLMode)
 
-	db, err := gorm.Open(postgres.Open(connStr), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(connStr), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			NoLowerCase: true,
+		},
+	})
 	if err != nil {
 		log.Fatal(err)
 	}

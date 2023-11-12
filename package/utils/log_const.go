@@ -14,4 +14,10 @@ const (
 	CHECK_HANDLER    = "Check Handler %v"
 	LOGIN_HANDLER    = "Login Handler %v"
 	REGISTER_HANDLER = "Register Handler %v"
+	READY_HANDLER    = "Ready Handler %v"
+)
+
+// logger services
+const (
+	FETCH_CONFIG_SERVICE = "FetchConfigService  %v"
 )

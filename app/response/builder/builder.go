@@ -2,20 +2,15 @@ package builder
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/kushanD95/traval-diary/package/dto"
 )
-
-type ErrorResponse struct {
-	Code    int
-	Message string
-	Error   string
-}
 
 type Response struct {
 	_        struct{}
 	Ctx      *fiber.Ctx
 	Payload  interface{}
 	Status   int
-	ErrorRes ErrorResponse
+	ErrorRes *dto.ErrorResponse
 }
 
 func (res *Response) BuildAndReturnResponse() {
@@ -24,6 +19,6 @@ func (res *Response) BuildAndReturnResponse() {
 	case 200:
 		res.Ctx.Status(res.Status).JSON(res.Payload)
 	default:
-		res.Ctx.Status(res.Status).JSON(res.ErrorRes)
+		res.Ctx.Status(res.Status).JSON(&res.ErrorRes)
 	}
 }
