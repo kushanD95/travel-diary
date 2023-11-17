@@ -10,6 +10,6 @@ func Controller(app *fiber.App) {
 
 	baseRoute.Get("/check", handler.Check)
 	baseRoute.Post("/ready", handler.Ready)
-	baseRoute.Get("/login", handler.Login)
+	baseRoute.Post("/login", handler.Login)
 	baseRoute.Post("/register", handler.Register)
 }

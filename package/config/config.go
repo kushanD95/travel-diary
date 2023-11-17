@@ -21,6 +21,7 @@ type AppConfig struct {
 	pgSSLMode  string
 
 	AppPort string
+	Secret  string
 	logger  *zap.Logger
 }
 
@@ -37,6 +38,8 @@ func (config *AppConfig) InitConfig() {
 
 	viper.SetDefault("APPPORT", "9000")
 
+	viper.SetDefault("SECRET", "sdfgltrtsxfcjhliltagfsglihmmgxv")
+
 	viper.AutomaticEnv()
 
 	config.AppPort = viper.GetString("APPPORT")
@@ -46,6 +49,7 @@ func (config *AppConfig) InitConfig() {
 	config.pgPort = viper.GetString("PGPORT")
 	config.pgDB = viper.GetString("PGDB")
 	config.pgSSLMode = viper.GetString("PGSSLMODE")
+	config.Secret = viper.GetString("SECRET")
 
 }
 
