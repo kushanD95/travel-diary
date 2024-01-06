@@ -6,6 +6,8 @@ const (
 	InternalServer = "InternalServer"
 	NotFound       = "NotFound"
 	Created        = "Created"
+	Unauthorized   = "Unauthorized"
+	Forbidden      = "Forbidden"
 )
 
 var StatusCode = map[string]int{
@@ -14,4 +16,6 @@ var StatusCode = map[string]int{
 	"BadRequest":     400,
 	"NotFound":       404,
 	"InternalServer": 500,
+	"Unauthorized":   401,
+	"Forbidden":      403,
 }

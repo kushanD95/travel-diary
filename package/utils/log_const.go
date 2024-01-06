@@ -12,6 +12,9 @@ const (
 
 // method names
 const (
+	//middleware
+	REQUIRE_AUTH = "RequireAuth"
+
 	// handler
 	CHECK    = "Check"
 	LOGIN    = "Login"
@@ -35,6 +38,11 @@ const (
 	USER_REQ       = "UserReq"
 	USER_LOGIN_REQ = "UserLoginReq"
 	GEN_HASH       = "genHash"
+)
+
+// logger middleware
+const (
+	REQUIRE_AUTH_LOG = REQUIRE_AUTH + " Middleware %v"
 )
 
 // logger handler
@@ -71,9 +79,13 @@ const (
 
 // logs
 const (
-	RECEIVED_PAYLOAD    = "received payload %v"
-	INVALID_USERNAME    = "invalid Username"
-	INVALID_PWD         = "invalid Password"
-	FAILED_CREATE_TOKEN = "Token creation failed"
-	SUCCESS_LOGIN       = "Successfully logged in"
+	RECEIVED_PAYLOAD            = "received payload %v"
+	INVALID_USERNAME            = "invalid Username"
+	INVALID_PWD                 = "invalid Password"
+	FAILED_CREATE_TOKEN         = "token creation failed"
+	SUCCESS_LOGIN               = "successfully logged"
+	INVALID_BEARER_TOKEN        = "missed or invalid Bearer token: should provide a token 'Bearer <token>'"
+	UNEXPECTED_SIGNING_METHOD   = "unexpected signing method: %s"
+	INVALID_TOKEN_CLAIM         = "invalid token claim"
+	USER_NOT_BELONGING_TO_TOKEN = "the user belonging to this token no logger exists"
 )
