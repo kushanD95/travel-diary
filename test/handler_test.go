@@ -218,7 +218,7 @@ func (s *TestSuite) MockDBDetails(mockDbSteps []DbStep) {
 					for _, data := range row.Values {
 						if data == "time" {
 							rowValues = append(rowValues, TestTime)
-						} else if data == "int" {
+						} else if data == "ID" {
 							rowValues = append(rowValues, 1)
 						} else {
 							rowValues = append(rowValues, data)
