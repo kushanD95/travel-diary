@@ -1,0 +1,11 @@
+[
+    {
+        "serviceName":"TestRegisterUser",
+        "filePath":"./testData/user/",
+        "scenariosFileName":"registerUserScenarios.json",
+        "isGetService": false,
+        "serviceUrl":"/travel-diary/v1/register",
+        "httpMethodType":"POST",
+        "workflowService":"Register"
+    }
+]
