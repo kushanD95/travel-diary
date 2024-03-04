@@ -1,0 +1,42 @@
+services:
+  db:
+    image: docker.io/bitnami/postgresql:14
+    container_name: postgres_main_instance
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - 'postgresql_main_data:/bitnami/postgresql'
+    environment:
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=postgres
+      - POSTGRESQL_DATABASE=travel-diary
+    networks:
+      - backend
+  rest_api:
+    image: travel-diary
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - PGHOST=db
+      - PGPORT=5432
+      - PGDB=travel-diary
+      - PGUSRNAME=postgres
+      - PGPWD=postgres    
+    ports:
+      - 9000:9000
+    networks:
+      - backend
+networks:
+  backend:
+    driver: "bridge"
+
+volumes:
+  postgresql_main_data:
+    driver: local
