@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Register user",
+        "description": "User Registration success",
+        "isDBMockRequired": true,
+        "requestUrl": "/travel-diary/v1/register",
+        "requestFileName": "registerUserSuccessRequest",
+        "responseFileName": "registerUserSuccessResponse",
+        "expectedStatusCode": 201,
+        "isIgnoreCompare": false,
+        "dbMockSteps": [
+            {
+                "dbAction": "Begin"
+            },
+            {
+                "dbAction": "ExecuteQuery",
+                "sqlArgs": [
+                    "anyArg",
+                    "anyArg",
+                    "anyArg"
+                ],
+                "returnRow": [
+                    "ID"
+                ],
+                "returnError": "",
+                "rows": [
+                    {
+                        "values": [
+                            "ID"
+                        ]
+                    }
+                ],
+                "isNeedToEditRowValues": true,
+                "isNeedToEditArgs": true,
+                "sqlQuery": "createUser",
+                "isErrorRequired": false
+            },
+            {
+                "dbAction": "Commit"
+            },
+            {
+                "dbAction": "Begin"
+            },
+            {
+                "dbAction": "ExecuteQuery",
+                "sqlArgs": [
+                    "anyArg",
+                    "anyArg",
+                    "anyArg",
+                    "anyArg",
+                    "anyArg"
+                ],
+                "returnRow": [
+                    "ID"
+                ],
+                "returnError": "",
+                "rows": [
+                    {
+                        "values": [
+                            "ID"
+                        ]
+                    }
+                ],
+                "isNeedToEditRowValues": true,
+                "isNeedToEditArgs": true,
+                "sqlQuery": "createUserDetails",
+                "isErrorRequired": false
+            },
+            {
+                "dbAction": "Commit"
+            }
+        ]
+    }
+]

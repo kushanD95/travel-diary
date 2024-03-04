@@ -74,6 +74,9 @@ func (config *AppConfig) SetupDB() *gorm.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	MigrateData(db)
+
 	return db
 }
 
